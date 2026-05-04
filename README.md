@@ -35,10 +35,16 @@ npm start
 
 ## Endpoints API
 
+### Tours
 ```
 GET /api/tours
 GET /api/tours/:id
 POST /api/tours
 PATCH /api/tours/:id
 DELETE /api/tours/:id
+```
+
+### Auth
+```
+POST /api/auth/login [WIP]
 ```
