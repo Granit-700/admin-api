@@ -52,7 +52,8 @@ export const createTour = async (req, res) => {
 
 export const updateTour = async (req, res) => {
   const id = req.params.id;
-  const body = req.body;
+  const { title, description, location, price, date, image } = req.body;
+  const body = { title, description, location, price, date, image };
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "not valid id" });
@@ -65,7 +66,7 @@ export const updateTour = async (req, res) => {
   try {
     const updatedTour = await Tour.findByIdAndUpdate(
       id,
-      { ...body, }, // позже переделать на измения только определённых полей.
+      { ...body, },
       { returnDocument: "after", runValidators: true },
     );
 
