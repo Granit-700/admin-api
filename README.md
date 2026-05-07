@@ -47,4 +47,5 @@ DELETE /api/tours/:id
 ### Auth
 ```
 POST /api/auth/login
+POST /api/auth/me
 ```
