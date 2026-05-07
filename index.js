@@ -22,7 +22,7 @@ const main = async () => {
     console.log("MongoDB connected");
 
     app.listen(PORT, () => {
-      console.log(`server starting on: http://localhost:${PORT}`);
+      console.log(`server starting on PORT:${PORT}`);
     });
   } catch (e) {
     console.error(e.message || e);
