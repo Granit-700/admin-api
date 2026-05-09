@@ -10,6 +10,17 @@ import { authMiddleware } from "../middleware/auth.js";
 
 const router = Router();
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Получить все туры
+ *     responses:
+ *       200:
+ *         description: Список туров
+ *       500:
+ *         description: Ошибка сервера
+ */
 router.get("/", getAllTours);
 
 router.get("/:id", getOneTour);
