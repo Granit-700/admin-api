@@ -17,7 +17,7 @@ const DB_URI = process.env.DB_URI;
 const main = async () => {
   try {
     await mongoose.connect(DB_URI, {
-      dbname: "tour-app"
+      dbname: "tour-app",
     });
     console.log("MongoDB connected");
 
@@ -26,7 +26,7 @@ const main = async () => {
     });
   } catch (e) {
     console.error(e.message || e);
-  };
+  }
 };
 
 main();

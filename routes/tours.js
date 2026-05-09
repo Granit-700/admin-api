@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { createTour, deleteTour, getAllTours, getOneTour, updateTour } from "../controllers/tourController.js";
+import {
+  createTour,
+  deleteTour,
+  getAllTours,
+  getOneTour,
+  updateTour,
+} from "../controllers/tourController.js";
 import { authMiddleware } from "../middleware/auth.js";
 
 const router = Router();

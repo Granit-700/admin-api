@@ -9,7 +9,7 @@ export const getAllTours = async (req, res) => {
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
-  };
+  }
 };
 
 export const getOneTour = async (req, res) => {
@@ -17,20 +17,20 @@ export const getOneTour = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "not valid id" });
-  };
+  }
 
   try {
     const tour = await Tour.findById(id);
 
     if (!tour) {
       return res.status(404).json({ message: "not found" });
-    };
+    }
 
     res.json(tour);
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
-  };
+  }
 };
 
 export const createTour = async (req, res) => {
@@ -38,16 +38,16 @@ export const createTour = async (req, res) => {
 
   if (Object.keys(body).length === 0) {
     return res.status(400).json({ message: "empty request" });
-  };
+  }
 
   try {
     const createdTour = await Tour.create(body);
 
-    res.status(201).json(createdTour)
+    res.status(201).json(createdTour);
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
-  };
+  }
 };
 
 export const updateTour = async (req, res) => {
@@ -57,28 +57,28 @@ export const updateTour = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "not valid id" });
-  };
+  }
 
   if (Object.keys(body).length === 0) {
     return res.status(400).json({ message: "empty request" });
-  };
+  }
 
   try {
     const updatedTour = await Tour.findByIdAndUpdate(
       id,
-      { ...body, },
+      { ...body },
       { returnDocument: "after", runValidators: true },
     );
 
     if (!updatedTour) {
       return res.status(404).json({ message: "not found" });
-    };
+    }
 
     res.json(updatedTour);
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
-  };
+  }
 };
 
 export const deleteTour = async (req, res) => {
@@ -86,18 +86,18 @@ export const deleteTour = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "not valid id" });
-  };
+  }
 
   try {
     const deletedTour = await Tour.findByIdAndDelete(id);
 
     if (!deletedTour) {
       return res.status(404).json({ message: "not found" });
-    };
+    }
 
     res.json(deletedTour);
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
-  };
+  }
 };
