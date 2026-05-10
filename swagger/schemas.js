@@ -8,42 +8,70 @@
  *        properties:
  *          _id:
  *            type: string
- *
  *          title:
  *            type: string
+ *          date:
+ *            type: string
+ *            format: date-time
+ *          description:
+ *            type: string
+ *          location:
+ *            type: string
+ *          price:
+ *            type: number
+ *          image:
+ *            type: string
+ *            format: uri
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
  *
- *         date:
- *           type: string
+ *      TourContent:
+ *        type: object
+ *        properties:
+ *          title:
+ *            type: string
+ *          date:
+ *            type: string
+ *            format: date-time
+ *          description:
+ *            type: string
+ *          location:
+ *            type: string
+ *          price:
+ *            type: number
+ *          image:
+ *            type: string
+ *            format: uri
  *
- *         description:
- *           type: string
+ *      ErrorMessage:
+ *        required:
+ *          - message
+ *        type: object
+ *        properties:
+ *          message:
+ *            type: string
  *
- *         location:
- *           type: string
  *
- *         price:
- *           type: number
+ *    responses:
  *
- *         image:
- *           type: string
+ *      BadReq:
+ *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/ErrorMessage"
  *
- *         createdAt:
- *           type: string
+ *      NotFound:
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/ErrorMessage"
  *
- *         updatedAt:
- *           type: string
- *
- *      TourCreate:
- * type: object
- *
- * required:
- *  - title
- * - price
- *
- * properties:
- *  title:
- *   type: string
- *
- *   price:
- *    type: number
+ *      ServerError:
+ *        description: Server error
  */

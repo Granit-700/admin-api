@@ -19,15 +19,15 @@ const router = Router();
  *      summary: Получить все туры
  *      responses:
  *        200:
- *          description: Список туров
+ *          description: Get all tours
  *          content:
  *            application/json:
  *              schema:
  *                type: array
  *                items:
- *                  $ref: '#/components/schemas/Tour'
+ *                  $ref: "#/components/schemas/Tour"
  *        500:
- *          description: Ошибка сервера
+ *          $ref: "#/components/responses/ServerError"
  */
 router.get("/", getAllTours);
 
@@ -48,13 +48,17 @@ router.get("/", getAllTours);
  *            type: string
  *      responses:
  *        200:
- *          description: Обьект тура
+ *          description: Get tour
  *          content:
  *            application/json:
  *              schema:
  *                $ref: "#/components/schemas/Tour"
+ *        400:
+ *          $ref: "#/components/responses/BadReq"
+ *        404:
+ *          $ref: "#/components/responses/NotFound"
  *        500:
- *          description: Ошибка сервера
+ *          $ref: "#/components/responses/ServerError"
  */
 router.get("/:id", getOneTour);
 
@@ -68,36 +72,23 @@ router.get("/:id", getOneTour);
  *        - bearerAuth: []
  *      summary: Создать тур
  *      description: создаёт один тур по переданным данным из тела запроса
- *      parameters:
- *        - in: header
- *          name: Authorization
- *          required: true
- *          schema:
- *            type: string
  *      requestBody:
  *        required: true
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                title:
- *                  type: string
- *                date:
- *                  type: string
- *                description:
- *                  type: string
- *                location:
- *                  type: string
- *                price:
- *                  type: number
- *                image:
- *                  type: string
+ *              $ref: "#/components/schemas/TourContent"
  *      responses:
  *        201:
- *          description: Тур создан
+ *          description: Tour created
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Tour"
  *        400:
- *          description: пустое тело запроса
+ *          $ref: "#/components/responses/BadReq"
+ *        500:
+ *          $ref: "#/components/responses/ServerError"
  */
 router.post("/", authMiddleware, createTour);
 
@@ -112,9 +103,10 @@ router.post("/", authMiddleware, createTour);
  *      summary: Обновить тур
  *      description: Обновляет переданные в поля у тура
  *      parameters:
- *        - in: header
- *          name: Authorization
+ *        - in: path
+ *          name: id
  *          required: true
+ *          description: ID тура
  *          schema:
  *            type: string
  *      requestBody:
@@ -122,29 +114,20 @@ router.post("/", authMiddleware, createTour);
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                title:
- *                  type: string
- *                date:
- *                  type: string
- *                description:
- *                  type: string
- *                location:
- *                  type: string
- *                price:
- *                  type: number
- *                image:
- *                  type: string
+ *              $ref: "#/components/schemas/TourContent"
  *      responses:
  *        200:
- *          description: тур обновлён
+ *          description: Tour updated
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Tour"
  *        400:
- *          description: не валидный id или пустой запрос
- *        401:
- *          description: тур не найден
+ *          $ref: "#/components/responses/BadReq"
+ *        404:
+ *          $ref: "#/components/responses/NotFound"
  *        500:
- *          description: Ошибка сервера
+ *          $ref: "#/components/responses/ServerError"
  */
 router.patch("/:id", authMiddleware, updateTour);
 
@@ -159,18 +142,25 @@ router.patch("/:id", authMiddleware, updateTour);
  *      summary: Удалить тур
  *      description: Удаляет тур из базы и возвращает его в теле ответа
  *      parameters:
- *        - in: header
- *          name: Authorization
+ *        - in: path
+ *          name: id
  *          required: true
+ *          description: ID тура
  *          schema:
  *            type: string
  *      responses:
  *        200:
- *          description: тур удалён
+ *          description: Tour deleted
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/Tour"
  *        400:
- *          description: невалидный id
+ *          $ref: "#/components/responses/BadReq"
  *        404:
- *          description: тур в базе не найден
+ *          $ref: "#/components/responses/NotFound"
+ *        500:
+ *          $ref: "#/components/responses/ServerError"
  */
 router.delete("/:id", authMiddleware, deleteTour);
 
