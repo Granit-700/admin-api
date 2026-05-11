@@ -9,26 +9,15 @@ const router = Router();
  *  /api/auth/login:
  *    post:
  *      tags:
- *        - Auth:
+ *        - Auth
  *      summary: Получение JWT токена
- *      description: Принимает обьект с credentials и потом возвращает JWT токен со сроком жизни в 1 день
+ *      description: Принимает данные пользователя и возвращает JWT токен со сроком в жизни 1 день
  *      requestBody:
  *        required: true
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              required: 
- *                - login
- *                - password
- *              properties:
- *                login:
- *                  type: string
- *                  example: admin
- *                password:
- *                  type: string
- *                  format: password
- *                  example: password
+ *              $ref: "#/components/schemas/Username"
  *      responses:
  *        200:
  *          description: Возвращает JWT токен
@@ -40,14 +29,59 @@ const router = Router();
  *                  token:
  *                    type: string
  *        400:
- *          description: Нужные поля не заполнены
+ *          $ref: "#/components/responses/BadReq"
  *        401:
- *          description: Данные не правильные
- *        500: 
- *          description: Ошибка сервера
+ *          $ref: "#/components/responses/Unauthorized"
+ *        500:
+ *          $ref: "#/components/responses/ServerError"
  */
 router.post("/login", login);
 
+/**
+ * @swagger
+ *  /api/auth/me:
+ *    patch:
+ *      tags:
+ *        - Auth
+ *      security:
+ *        - bearerAuth: []
+ *      summary: Обновить данные пользователя
+ *      description: Обновляет только переданные данные пользователя
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/UserCredentials"
+ *      responses:
+ *        200:
+ *          description: User credentials updated
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                  user:
+ *                    type: object
+ *                    properties:
+ *                      _id:
+ *                        type: string
+ *                      username:
+ *                        type: string
+ *                        example: username
+ *                      __v:
+ *                        type: integer
+ *        400:
+ *          $ref: "#/components/responses/BadReq"
+ *        401:
+ *          $ref: "#/components/responses/Unauthorized"
+ *        404:
+ *          $ref: "#/components/responses/NotFound"
+ *        500:
+ *          $ref: "#/components/responses/ServerError"
+ */
 router.patch("/me", authMiddleware, updateUser);
 
 export default router;

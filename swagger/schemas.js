@@ -28,6 +28,8 @@
  *          updatedAt:
  *            type: string
  *            format: date-time
+ *          __v:
+ *            type: integer
  *
  *      TourContent:
  *        type: object
@@ -47,6 +49,31 @@
  *            type: string
  *            format: uri
  *
+ *      Username:
+ *        type: object
+ *        required:
+ *          - username
+ *          - password
+ *        properties:
+ *          username:
+ *            type: string
+ *            example: username
+ *          password:
+ *            type: string
+ *            format: password
+ *            example: password
+ *
+ *      UserCredentials:
+ *        type: object
+ *        properties:
+ *          username:
+ *            type: string
+ *            example: username
+ *          password:
+ *            type: string
+ *            format: password
+ *            example: password
+ *
  *      ErrorMessage:
  *        required:
  *          - message
@@ -60,6 +87,13 @@
  *
  *      BadReq:
  *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/ErrorMessage"
+ *
+ *      Unauthorized:
+ *        description: Invalid credentials
  *        content:
  *          application/json:
  *            schema:
