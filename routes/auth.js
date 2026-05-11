@@ -52,7 +52,7 @@ router.post("/login", login);
  *        content:
  *          application/json:
  *            schema:
- *              $ref: "#/components/schemas/UserCredentials"
+ *              $ref: "#/components/schemas/UserUpdate"
  *      responses:
  *        200:
  *          description: User credentials updated

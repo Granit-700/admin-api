@@ -74,6 +74,22 @@
  *            format: password
  *            example: password
  *
+ *      UserUpdate:
+ *        type: object
+ *        required:
+ *          - password
+ *        properties:
+ *          password:
+ *            type: string
+ *            format: password
+ *            example: password
+ *          newUsername:
+ *            type: string
+ *            example: username
+ *          newPassword:
+ *            type: string
+ *            format: password
+ *
  *      ErrorMessage:
  *        required:
  *          - message
