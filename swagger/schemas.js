@@ -31,6 +31,43 @@
  *          __v:
  *            type: integer
  *
+ *      Blog:
+ *        type: object
+ *        properties:
+ *          _id:
+ *            type: string
+ *          title:
+ *            type: string
+ *          content:
+ *            type: string
+ *          excerpt:
+ *            type: string
+ *          slug:
+ *            type: string
+ *          author:
+ *            type: string
+ *          status:
+ *            type: string
+ *          categories:
+ *            type: array
+ *            items:
+ *              type: string
+ *          tags:
+ *            type: array
+ *            items:
+ *              type: string
+ *          image:
+ *            type: string
+ *            format: uri
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ *          __v:
+ *            type: integer
+ *
  *      TourContent:
  *        type: object
  *        properties:
@@ -45,6 +82,33 @@
  *            type: string
  *          price:
  *            type: number
+ *          image:
+ *            type: string
+ *            format: uri
+ *
+ *      BlogContent:
+ *        type: object
+ *        properties:
+ *          title:
+ *            type: string
+ *          content:
+ *            type: string
+ *          excerpt:
+ *            type: string
+ *          slug:
+ *            type: string
+ *          author:
+ *            type: string
+ *          status:
+ *            type: string
+ *          categories:
+ *            type: array
+ *            items:
+ *              type: string
+ *          tags:
+ *            type: array
+ *            items:
+ *              type: string
  *          image:
  *            type: string
  *            format: uri
