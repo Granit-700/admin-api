@@ -90,6 +90,22 @@
  *            type: string
  *            format: password
  *
+ *      UserUpdated:
+ *        type: object
+ *        properties:
+ *          message:
+ *            type: string
+ *          user:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *              username:
+ *                type: string
+ *                example: username
+ *              __v:
+ *                type: integer
+ *
  *      ErrorMessage:
  *        required:
  *          - message

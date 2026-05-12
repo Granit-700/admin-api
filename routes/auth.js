@@ -59,20 +59,7 @@ router.post("/login", login);
  *          content:
  *            application/json:
  *              schema:
- *                type: object
- *                properties:
- *                  message:
- *                    type: string
- *                  user:
- *                    type: object
- *                    properties:
- *                      _id:
- *                        type: string
- *                      username:
- *                        type: string
- *                        example: username
- *                      __v:
- *                        type: integer
+ *                $ref: "#/components/schemas/UserUpdated"
  *        400:
  *          $ref: "#/components/responses/BadReq"
  *        401:
