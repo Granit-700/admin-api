@@ -52,8 +52,19 @@ export const createTour = async (req, res) => {
 
 export const updateTour = async (req, res) => {
   const id = req.params.id;
-  const { title, description, location, price, date, image } = req.body;
-  const body = { title, description, location, price, date, image };
+  const { title, description, location, price, date, image, itinerary } =
+    req.body;
+  const body = { title, description, location, price, date, image, itinerary };
+
+  Object.keys(body).forEach((key) => {
+    if (body[key] === undefined) {
+      delete body[key];
+    }
+  });
+
+  if (!Array.isArray(itinerary)) {
+    delete body.itinerary;
+  }
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "not valid id" });

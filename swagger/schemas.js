@@ -22,6 +22,24 @@
  *          image:
  *            type: string
  *            format: uri
+ *          itinerary:
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                day:
+ *                  type: number
+ *                title:
+ *                  type: string
+ *                text:
+ *                  type: string
+ *                accommodation:
+ *                  type: string
+ *                meals:
+ *                  type: string
+ *                image:
+ *                  type: string
+ *                  format: uri
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -85,6 +103,24 @@
  *          image:
  *            type: string
  *            format: uri
+ *          itinerary:
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                day:
+ *                  type: number
+ *                title:
+ *                  type: string
+ *                text:
+ *                  type: string
+ *                accommodation:
+ *                  type: string
+ *                meals:
+ *                  type: string
+ *                image:
+ *                  type: string
+ *                  format: uri
  *
  *      BlogContent:
  *        type: object

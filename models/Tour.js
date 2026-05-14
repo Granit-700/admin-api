@@ -26,6 +26,19 @@ const tourSchema = new mongoose.Schema(
       type: String, // URL
       required: true,
     },
+    itinerary: {
+      type: [
+        {
+          day: Number,
+          title: String,
+          text: String,
+          accommodation: String,
+          meals: String,
+          image: String,
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,
