@@ -7,6 +7,7 @@ import {
   getOneBlog,
   updateBlog,
 } from "../controllers/blogController.js";
+import { upload } from "../middleware/multer.js";
 
 const router = Router();
 
@@ -75,7 +76,7 @@ router.get("/:id", getOneBlog);
  *      requestBody:
  *        required: true
  *        content:
- *          application/json:
+ *          multipart/form-data:
  *            schema:
  *              $ref: "#/components/schemas/BlogContent"
  *      responses:
@@ -90,7 +91,12 @@ router.get("/:id", getOneBlog);
  *        500:
  *          $ref: "#/components/responses/ServerError"
  */
-router.post("/", authMiddleware, createBlog);
+router.post(
+  "/",
+  authMiddleware,
+  upload.fields([{ name: "image", maxCount: 1 }]),
+  createBlog,
+);
 
 /**
  * @swagger
@@ -112,7 +118,7 @@ router.post("/", authMiddleware, createBlog);
  *      requestBody:
  *        required: true
  *        content:
- *          application/json:
+ *          multipart/form-data:
  *            schema:
  *              $ref: "#/components/schemas/BlogContent"
  *      responses:
@@ -129,7 +135,12 @@ router.post("/", authMiddleware, createBlog);
  *        500:
  *          $ref: "#/components/responses/ServerError"
  */
-router.patch("/:id", authMiddleware, updateBlog);
+router.patch(
+  "/:id",
+  authMiddleware,
+  upload.fields([{ name: "image", maxCount: 1 }]),
+  updateBlog,
+);
 
 /**
  * @swagger

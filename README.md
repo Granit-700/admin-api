@@ -26,6 +26,10 @@ npm i
 ```.env
 PORT=3000 # (or any port)
 DB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+CLOUDINARY_CLOUD_NAME=cloudinary_cloud_name
+CLOUDINARY_API_KEY=cloudinary_api_key
+CLOUDINARY_API_SECRET=cloudinary_api_secret
 ```
 
 ### Run Dev

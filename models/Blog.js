@@ -21,7 +21,6 @@ const blogSchema = new mongoose.Schema(
     },
     author: {
       type: String,
-      ref: "User",
       required: true,
     },
     status: {
@@ -37,8 +36,14 @@ const blogSchema = new mongoose.Schema(
       default: [],
     },
     image: {
-      type: String, // URL
-      default: null,
+      url: {
+        type: String,
+        default: null,
+      },
+      public_id: {
+        type: String,
+        default: null,
+      },
     },
   },
   {

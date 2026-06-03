@@ -7,6 +7,7 @@ import {
   updateTour,
 } from "../controllers/tourController.js";
 import { authMiddleware } from "../middleware/auth.js";
+import { upload } from "../middleware/multer.js";
 
 const router = Router();
 
@@ -75,7 +76,7 @@ router.get("/:id", getOneTour);
  *      requestBody:
  *        required: true
  *        content:
- *          application/json:
+ *          multipart/form-data:
  *            schema:
  *              $ref: "#/components/schemas/TourContent"
  *      responses:
@@ -90,7 +91,15 @@ router.get("/:id", getOneTour);
  *        500:
  *          $ref: "#/components/responses/ServerError"
  */
-router.post("/", authMiddleware, createTour);
+router.post(
+  "/",
+  authMiddleware,
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "itineraryImages", maxCount: 20 },
+  ]),
+  createTour,
+);
 
 /**
  * @swagger
@@ -112,7 +121,7 @@ router.post("/", authMiddleware, createTour);
  *      requestBody:
  *        required: true
  *        content:
- *          application/json:
+ *          multipart/form-data:
  *            schema:
  *              $ref: "#/components/schemas/TourContent"
  *      responses:
@@ -129,7 +138,15 @@ router.post("/", authMiddleware, createTour);
  *        500:
  *          $ref: "#/components/responses/ServerError"
  */
-router.patch("/:id", authMiddleware, updateTour);
+router.patch(
+  "/:id",
+  authMiddleware,
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "itineraryImages", maxCount: 20 },
+  ]),
+  updateTour,
+);
 
 /**
  * @swagger

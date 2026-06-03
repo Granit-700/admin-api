@@ -4,87 +4,41 @@
  *    schemas:
  *
  *      Tour:
- *        type: object
- *        properties:
- *          _id:
- *            type: string
- *          title:
- *            type: string
- *          date:
- *            type: string
- *            format: date-time
- *          description:
- *            type: string
- *          location:
- *            type: string
- *          price:
- *            type: number
- *          image:
- *            type: string
- *            format: uri
- *          itinerary:
- *            type: array
- *            items:
- *              type: object
- *              properties:
- *                day:
- *                  type: number
- *                title:
- *                  type: string
- *                text:
- *                  type: string
- *                accommodation:
- *                  type: string
- *                meals:
- *                  type: string
- *                image:
- *                  type: string
- *                  format: uri
- *          createdAt:
- *            type: string
- *            format: date-time
- *          updatedAt:
- *            type: string
- *            format: date-time
- *          __v:
- *            type: integer
- *
- *      Blog:
- *        type: object
- *        properties:
- *          _id:
- *            type: string
- *          title:
- *            type: string
- *          content:
- *            type: string
- *          excerpt:
- *            type: string
- *          slug:
- *            type: string
- *          author:
- *            type: string
- *          status:
- *            type: string
- *          categories:
- *            type: array
- *            items:
- *              type: string
- *          tags:
- *            type: array
- *            items:
- *              type: string
- *          image:
- *            type: string
- *            format: uri
- *          createdAt:
- *            type: string
- *            format: date-time
- *          updatedAt:
- *            type: string
- *            format: date-time
- *          __v:
- *            type: integer
+ *        allOf:
+ *          - $ref: "#/components/schemas/TourContent"
+ *          - type: object
+ *            properties:
+ *              image:
+ *                $ref: "#/components/schemas/ImageObject"
+ *              itinerary:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    _id:
+ *                      type: string
+ *                    day:
+ *                      type: number
+ *                    title:
+ *                      type: string
+ *                    text:
+ *                      type: string
+ *                    accommodation:
+ *                      type: string
+ *                    meals:
+ *                      type: string
+ *                    image:
+ *                      $ref: "#/components/schemas/ImageObject"
+ *              _id:
+ *                type: string
+ *              createdAt:
+ *                type: string
+ *                format: date-time
+ *              updatedAt:
+ *                type: string
+ *                format: date-time
+ *              __v:
+ *                type: integer
  *
  *      TourContent:
  *        type: object
@@ -102,25 +56,34 @@
  *            type: number
  *          image:
  *            type: string
- *            format: uri
- *          itinerary:
+ *            format: binary
+ *          itineraryImages:
  *            type: array
  *            items:
- *              type: object
- *              properties:
- *                day:
- *                  type: number
- *                title:
- *                  type: string
- *                text:
- *                  type: string
- *                accommodation:
- *                  type: string
- *                meals:
- *                  type: string
- *                image:
- *                  type: string
- *                  format: uri
+ *              type: string
+ *              format: binary
+ *          itinerary:
+ *            type: string
+ *            description: JSON-строка массива дней. Порядок изборажений важен!
+ *            example: '[{"day":1,"title":"День 1","text":"...","accommodation":"отель","meals":"завтрак"}]'
+ *
+ *      Blog:
+ *        allOf:
+ *          - $ref: "#/components/schemas/BlogContent"
+ *          - type: object
+ *            properties:
+ *              image:
+ *                $ref: "#/components/schemas/ImageObject"
+ *              _id:
+ *                type: string
+ *              createdAt:
+ *                type: string
+ *                format: date-time
+ *              updatedAt:
+ *                type: string
+ *                format: date-time
+ *              __v:
+ *                type: integer
  *
  *      BlogContent:
  *        type: object
@@ -146,8 +109,16 @@
  *            items:
  *              type: string
  *          image:
+ *            $ref: "#/components/schemas/ImageObject"
+ *
+ *      ImageObject:
+ *        type: object
+ *        properties:
+ *          url:
  *            type: string
  *            format: uri
+ *          public_id:
+ *            type: string
  *
  *      Username:
  *        type: object

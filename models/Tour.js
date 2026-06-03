@@ -23,8 +23,12 @@ const tourSchema = new mongoose.Schema(
       required: true,
     },
     image: {
-      type: String, // URL
-      required: true,
+      url: {
+        type: String,
+      },
+      public_id: {
+        type: String,
+      },
     },
     itinerary: {
       type: [
@@ -34,7 +38,10 @@ const tourSchema = new mongoose.Schema(
           text: String,
           accommodation: String,
           meals: String,
-          image: String,
+          image: {
+            url: String,
+            public_id: String,
+          },
         },
       ],
       default: [],
