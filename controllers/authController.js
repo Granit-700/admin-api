@@ -19,10 +19,23 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" },
+      { expiresIn: "15m" },
     );
 
+    const refreshToken = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    await User.findByIdAndUpdate(user._id, { refreshToken });
+
     res.json({ token });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
