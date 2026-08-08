@@ -1,8 +1,11 @@
 import { Router } from "express";
-import { login, updateUser } from "../controllers/authController.js";
+import {
+  login,
+  logout,
+  refresh,
+  updateUser,
+} from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/auth.js";
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
 
 const router = Router();
 
@@ -39,50 +42,9 @@ const router = Router();
  */
 router.post("/login", login);
 
-router.post("/refresh", async (req, res) => {
-  const { token, id } = req.body;
-  const { refreshToken } = req.cookies;
+router.post("/refresh", refresh);
 
-  if (!token.trim() || !refreshToken.trim()) {
-    return res.json({ message: "Invalid credentials" });
-  }
-
-  const user = await User.findById(id);
-
-  if (user.refreshToken !== refreshToken) {
-    res.json({ message: "Invalid credentials" });
-  }
-
-  const match = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-
-  const newToken = jwt.sign(
-    { id: user._id, username: user.username },
-    process.env.JWT_SECRET,
-    { expiresIn: "15m" },
-  );
-
-  const newRefreshToken = jwt.sign(
-    { id: user._id, username: user.username },
-    process.env.JWT_REFRESH_SECRET,
-    { expiresIn: "7d" },
-  );
-
-  res.json({ newToken });
-  res.cookie("refreshToken", newRefreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-  });
-});
-
-router.post("/logout", authMiddleware, async (req, res) => {
-  const id = req.body.id;
-
-  await User.findByIdAndUpdate(id, { refreshToken: null });
-
-  res.json({ token: null });
-  res.clearCookie();
-});
+router.post("/logout", authMiddleware, logout);
 
 /**
  * @swagger

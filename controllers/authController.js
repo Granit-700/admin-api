@@ -30,16 +30,85 @@ export const login = async (req, res) => {
 
     await User.findByIdAndUpdate(user._id, { refreshToken });
 
-    res.json({ token });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+      secure: false,
+      sameSite: "lax",
     });
+    res.json({ token });
   } catch (e) {
     console.error(e.message || e);
     res.status(500).json({ message: e.message || e });
   }
+};
+
+export const refresh = async (req, res) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+    return res.status(400).json({ message: "Invalid credentials" });
+  }
+
+  let decodedRefresh;
+  try {
+    decodedRefresh = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+  } catch (e) {
+    console.error(e.message || e);
+    return res.status(401).json({ message: "Invalid credentials 1" });
+  }
+  const user = await User.findById(decodedRefresh.id);
+
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+  if (!user) {
+    return res.status(401).json({ message: "Invalid credentials 2" });
+  }
+
+  if (user.refreshToken !== refreshToken) {
+    return res.status(401).json({ message: "Invalid credentials 3" });
+  }
+
+  const newToken = jwt.sign(
+    { id: user._id, username: user.username },
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" },
+  );
+
+  const newRefreshToken = jwt.sign(
+    { id: user._id, username: user.username },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: "7d" },
+  );
+
+  await User.findByIdAndUpdate(user._id, { refreshToken: newRefreshToken });
+
+  res.cookie("refreshToken", newRefreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+  res.json({ token: newToken });
+};
+
+export const logout = async (req, res) => {
+  const { refreshToken } = req.cookies;
+
+  let decoded;
+  try {
+    decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+  } catch (e) {
+    console.error(e.message || e);
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+
+  await User.findByIdAndUpdate(decoded.id, { refreshToken: null });
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
+  res.json({ token: null });
 };
 
 export const updateUser = async (req, res) => {
