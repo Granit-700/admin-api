@@ -121,6 +121,8 @@ router.post("/refresh", refresh);
  *                  token:
  *                    type: null
  *                    example: null
+ *        400:
+ *          $ref: "#/components/responses/BadReq"
  *        401:
  *          $ref: "#/components/responses/Unauthorized"
  *        500:

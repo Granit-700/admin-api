@@ -97,6 +97,10 @@ export const logout = async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
 
+    if (!refreshToken) {
+      return res.status(400).json({message: "Invalid credentials"})
+    }
+
     let decoded;
     try {
       decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
