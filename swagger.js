@@ -8,7 +8,7 @@ export default swaggerJsdoc({
       version: "1.0.0",
       description: "Документация к API",
     },
-    servers: [{ url: "http://localhost:3000" }],
+    servers: [{ url: "http://localhost:3000", description: "Dev server" }],
     components: {
       securitySchemes: {
         bearerAuth: {
@@ -20,4 +20,5 @@ export default swaggerJsdoc({
     },
   },
   apis: ["./routes/*.js", "./swagger/*.js"],
+  failOnErrors: true,
 });
