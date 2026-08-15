@@ -52,9 +52,21 @@ PATCH /api/tours/:id
 DELETE /api/tours/:id
 ```
 
+### Blogs
+
+```
+GET /api/blogs
+GET /api/blogs/:id
+POST /api/blogs
+PATCH /api/blogs/:id
+DELETE /api/blogs/:id
+```
+
 ### Auth
 
 ```
 POST /api/auth/login
-POST /api/auth/me
+POST /api/auth/refresh
+POST /api/auth/logout
+PATCH /api/auth/me
 ```
