@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { login, updateUser } from "../controllers/authController.js";
+import {
+  login,
+  logout,
+  refresh,
+  updateUser,
+} from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/auth.js";
 
 const router = Router();
@@ -20,7 +25,13 @@ const router = Router();
  *              $ref: "#/components/schemas/Username"
  *      responses:
  *        200:
- *          description: Возвращает JWT токен
+ *          description: Возвращает JWT токен в тело ответа. Автоматически устанавливает Refresh токен в куки браузера
+ *          headers:
+ *            Set-Cookie:
+ *              description: Вставляет Refresh-Токен в куки
+ *              schema:
+ *                type: string
+ *                example: refreshToken=eyJhbGciOi...; HttpOnly; Path=/;
  *          content:
  *            application/json:
  *              schema:
@@ -36,6 +47,88 @@ const router = Router();
  *          $ref: "#/components/responses/ServerError"
  */
 router.post("/login", login);
+
+/**
+ * @swagger
+ *  /api/auth/refresh:
+ *    post:
+ *      tags:
+ *        - Auth
+ *      summary: Обновить токены
+ *      description: получает Refresh токен из куков браузера и отправляет новый access в теле ответа и обновляет Refresh токен в куках
+ *      parameters:
+ *        - name: refreshToken
+ *          in: cookie
+ *          schema:
+ *            type: string
+ *            example: refreshToken=eyJhbGciOi...;
+ *      responses:
+ *        200:
+ *          description: Возвращает JWT токен в теле ответа. Автоматически устанавливает Refresh токен в куки браузера
+ *          headers:
+ *            Set-Cookie:
+ *              description: Вставляет Refresh-Токен в куки
+ *              schema:
+ *                type: string
+ *                example: refreshToken=eyJhbGciOi...; HttpOnly;
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  token:
+ *                    type: string
+ *                    example: refreshToken=eyJhbGciOi...;
+ *        400:
+ *          $ref: "#/components/responses/BadReq"
+ *        401:
+ *          $ref: "#/components/responses/Unauthorized"
+ *        500:
+ *          $ref: "#/components/responses/ServerError"
+ */
+router.post("/refresh", refresh);
+
+/**
+ * @swagger
+ *  /api/auth/logout:
+ *    post:
+ *      tags:
+ *        - Auth
+ *      security:
+ *        - bearerAuth: []
+ *      summary: выход из аккаунта
+ *      description: обнуляет Refresh токен на сервере и в куках браузера. так же обнуляет Access токен в брузере.
+ *      parameters:
+ *        - name: refreshToken
+ *          in: cookie
+ *          schema:
+ *            type: string
+ *            example: refreshToken=eyJhbGciOi...;
+ *      responses:
+ *        200:
+ *          description: стирает токен при перезаписи
+ *          headers:
+ *            Set-Cookie:
+ *              description: стирает Refresh-токен в куках
+ *              schema:
+ *                type: string
+ *                example: refreshToken=null; HttpOnly;
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  token:
+ *                    type: null
+ *                    example: null
+ *        400:
+ *          $ref: "#/components/responses/BadReq"
+ *        401:
+ *          $ref: "#/components/responses/Unauthorized"
+ *        500:
+ *          $ref: "#/components/responses/ServerError"
+ */
+router.post("/logout", authMiddleware, logout);
 
 /**
  * @swagger
