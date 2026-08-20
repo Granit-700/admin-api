@@ -47,15 +47,18 @@ export const refresh = async (req, res) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     let decodedRefresh;
     try {
       decodedRefresh = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
     } catch (e) {
-      console.error(e.message || e);
-      return res.status(401).json({ message: "Invalid credentials" });
+      if (e instanceof jwt.Error) {
+        return res.status(401).json({ message: "Refresh token expired" });
+      }
+      
+      return res.status(401).json({ message: "Invalid refresh token" });
     }
     const user = await User.findById(decodedRefresh.id);
 
@@ -98,7 +101,7 @@ export const logout = async (req, res) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
-      return res.status(400).json({message: "Invalid credentials"})
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     let decoded;
