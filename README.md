@@ -70,3 +70,7 @@ POST /api/auth/refresh
 POST /api/auth/logout
 PATCH /api/auth/me
 ```
+
+## Docs
+
+[https://admin-api-u1yx.onrender.com/api-docs/](https://admin-api-u1yx.onrender.com/api-docs/)
